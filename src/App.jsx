@@ -10,9 +10,10 @@ function App() {
         color: "white",
         fontSize: "40px",
         fontWeight: "bold",
+        width:"100%"
       }}
     >
-      Lab Exam on CI/CD Pipeline 🚀
+      Lab Exam on CI/CD Pipeline 🚀 by RACHAPUDI SAI SREE 2300030570
     </div>
   );
 }
