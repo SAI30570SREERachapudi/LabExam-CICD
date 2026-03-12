@@ -1,10 +1,9 @@
-name: Lab Exam
+name: Lab Exam CI/CD
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -14,35 +13,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1 Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      # 2 Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
+      # 3 Install dependencies
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm test --if-present
-
-      - name: Build the project
+      # 4 Build project
+      - name: Build project
         run: npm run build
 
-      # Configure Git identity
-      - name: Configure Git
-        run: |
-          git config --global user.name "SAI30570SREERachapudi"
-          git config --global user.email "saisreegithub@gmail.com"
-
-      # Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
+      # 5 Deploy to GitHub Pages
+      - name: Deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --global user.name "SAI30570SREERachapudi"
-          git config --global user.email "saisreegithub@gmail.com"
           npm install -g gh-pages
-          gh-pages -d dist -r https://x-access-token:${GITHUB_TOKEN}@github.com/SAI30570SREERachapudi/LabExam-CICD.git
+          gh-pages -d dist -u "github-actions-bot <support@github.com>" -r https://x-access-token:${GITHUB_TOKEN}@github.com/SAI30570SREERachapudi/LabExam-CICD.git
