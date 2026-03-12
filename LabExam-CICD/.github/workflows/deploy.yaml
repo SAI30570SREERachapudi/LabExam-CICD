@@ -1,4 +1,4 @@
-name: Lab Exam CI/CD
+name: React CI/CD
 
 on:
   push:
@@ -13,28 +13,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1 Checkout repository
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2 Setup Node
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # 3 Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # 4 Build project
       - name: Build project
         run: npm run build
 
-      # 5 Deploy to GitHub Pages
-      - name: Deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to GitHub Pages
         run: |
           npm install -g gh-pages
-          gh-pages -d dist -u "github-actions-bot <support@github.com>" -r https://x-access-token:${GITHUB_TOKEN}@github.com/SAI30570SREERachapudi/LabExam-CICD.git
+          gh-pages -d dist
