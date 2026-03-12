@@ -1,9 +1,8 @@
-name: React CI/CD
+name: LabExam CI/CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 permissions:
   contents: write
@@ -13,21 +12,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm install
+      - run: npm install
 
-      - name: Build project
-        run: npm run build
+      - run: npm run build
 
-      - name: Deploy to GitHub Pages
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm install -g gh-pages
-          gh-pages -d dist
+          gh-pages -d dist -r https://x-access-token:${GITHUB_TOKEN}@github.com/SAI30570SREERachapudi/LabExam-CICD.git
